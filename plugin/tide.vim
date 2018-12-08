@@ -14,6 +14,7 @@ function! TmuxSendKeys(keys)
     let l:keys = substitute(l:keys, ";$", '; ', 'g') "preserve trailing semicolons
     let l:keys = substitute(l:keys, '\', '\\\\', 'g') "escape backslashes
     let l:keys = substitute(l:keys, '\"', '\\\"', 'g') "escape double quotes
+    let l:keys = substitute(l:keys, '!', '\!', 'g') "escape esclamation mark
     call system(g:tmux_cmd . "-l \"" . l:keys . "\"")
 endfunction
 function! s:TmuxSendEnter()
@@ -75,9 +76,17 @@ endfunction
 
 " send visual selection
 function! s:TmuxSendVisual()
-    normal! gv"ay
-    call TmuxSendKeys(@a)
-    call s:TmuxSendEnter()
+    let [line_start, column_start] = getpos("'<")[1:2]
+    let [line_end, column_end] = getpos("'>")[1:2]
+    let lines = getline(line_start, line_end)
+    if len(lines) == 0
+	return ''
+    endif
+    let lines[-1] = lines[-1][: column_end - (&selection == 'inclusive' ? 1 : 2)]
+    let lines[0] = lines[0][column_start - 1:]
+    for line in lines
+	call TmuxSendKeysEnter(line)
+    endfor
 endfunction
 
 " command and plugin mappings
@@ -89,7 +98,7 @@ command! -nargs=0 -complete=command TmuxSendParagraph call s:TmuxSendParagraph()
 command! -nargs=0 -complete=command TmuxSendSection call s:TmuxSendSection()
 command! -nargs=0 -complete=command -range TmuxSendLines call s:TmuxSendLines(<line1>, <line2>)
 
-xnoremap <unique> <silent> <script> <Plug>TmuxSendVisual :TmuxSendVisual<CR>
+xnoremap <unique> <silent> <script> <Plug>TmuxSendVisual :<C-u>TmuxSendVisual<CR>
 nnoremap <unique> <silent> <script> <Plug>TmuxSendParagraph :TmuxSendParagraph<CR>
 nnoremap <unique> <silent> <script> <Plug>TmuxSendLine :TmuxSendLine<CR>
 nnoremap <unique> <silent> <script> <Plug>TmuxSendWord :call TmuxSendKeysEnter(expand("<cword>"))<CR>
