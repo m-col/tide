@@ -15,6 +15,7 @@ function! TmuxSendKeys(keys)
     let l:keys = substitute(l:keys, '\', '\\\\', 'g') "escape backslashes
     let l:keys = substitute(l:keys, '\"', '\\\"', 'g') "escape double quotes
     let l:keys = substitute(l:keys, '!', '\!', 'g') "escape esclamation mark
+    let l:keys = substitute(l:keys, '\$', '\\\$', 'g') "escape dollar sign
     call system(g:tmux_cmd . "-l \"" . l:keys . "\"")
 endfunction
 function! s:TmuxSendEnter()
