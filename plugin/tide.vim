@@ -99,17 +99,17 @@ command! -nargs=0 -complete=command TmuxSendParagraph call s:TmuxSendParagraph()
 command! -nargs=0 -complete=command TmuxSendSection call s:TmuxSendSection()
 command! -nargs=0 -complete=command -range TmuxSendLines call s:TmuxSendLines(<line1>, <line2>)
 
-xnoremap <unique> <silent> <script> <Plug>TmuxSendVisual :<C-u>TmuxSendVisual<CR>
-nnoremap <unique> <silent> <script> <Plug>TmuxSendParagraph :TmuxSendParagraph<CR>
-nnoremap <unique> <silent> <script> <Plug>TmuxSendLine :TmuxSendLine<CR>
-nnoremap <unique> <silent> <script> <Plug>TmuxSendWord :call TmuxSendKeysEnter(expand("<cword>"))<CR>
-nnoremap <unique> <silent> <script> <Plug>TmuxSendSection :TmuxSendSection<CR>
+silent! xnoremap <unique> <silent> <script> <Plug>TmuxSendVisual :<C-u>TmuxSendVisual<CR>
+silent! nnoremap <unique> <silent> <script> <Plug>TmuxSendParagraph :TmuxSendParagraph<CR>
+silent! nnoremap <unique> <silent> <script> <Plug>TmuxSendLine :TmuxSendLine<CR>
+silent! nnoremap <unique> <silent> <script> <Plug>TmuxSendWord :call TmuxSendKeysEnter(expand("<cword>"))<CR>
+silent! nnoremap <unique> <silent> <script> <Plug>TmuxSendSection :TmuxSendSection<CR>
 
 " default keybindings
 if !exists("g:tide_no_default_keys")
-    xmap <unique> <F9> <Plug>TmuxSendVisual
-    nmap <unique> <silent> <F9> <Plug>TmuxSendParagraph
-    nmap <unique> <silent> <F8> <Plug>TmuxSendLine
-    nmap <unique> <silent> <F7> <Plug>TmuxSendWord
-    nmap <unique> <silent> <F4> <Plug>TmuxSendSection
+    silent! xmap <unique> <silent> <F9> <Plug>TmuxSendVisual
+    silent! nmap <unique> <silent> <F9> <Plug>TmuxSendParagraph
+    silent! nmap <unique> <silent> <F8> <Plug>TmuxSendLine
+    silent! nmap <unique> <silent> <F7> <Plug>TmuxSendWord
+    silent! nmap <unique> <silent> <F4> <Plug>TmuxSendSection
 endif
