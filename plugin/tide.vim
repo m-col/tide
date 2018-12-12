@@ -2,6 +2,12 @@
 " tide: tmux IDE
 "------------------------------------------------------------------"
 
+" load once
+if exists('g:loaded_tide')
+  finish
+endif
+let g:loaded_tide = 1
+
 " command to prefix text
 if !exists("g:tmux_cmd")
     let g:tmux_cmd = "tmux send -t .+ "
@@ -53,26 +59,28 @@ endfunction
 
 " send current section delimited by double comments
 function! s:TmuxSendSection()
-    let g:com = split(&comments, ",")
-    let g:scom = substitute(g:com[0], "^.*:", '', '')
-    for g:i in g:com
-	let g:ncom = substitute(g:i, "^.*:", '', '')
-	if len(g:ncom) < len(g:scom)
-	    let g:scom = g:ncom
+    " find shortest comment character
+    let s:com = split(&comments, ",")
+    let s:scom = substitute(s:com[0], "^.*:", '', '')
+    for s:i in s:com
+	let s:ncom = substitute(s:i, "^.*:", '', '')
+	if len(s:ncom) < len(s:scom)
+	    let s:scom = s:ncom
 	endif
     endfor
-    let g:tcom = g:scom . g:scom
-    let g:top = search(g:tcom . '\|\%^?', 'cbnW')
-    let g:bottom = search(g:tcom . '\|\%$', 'nW')
-    if g:bottom <= g:top
-	let g:bottom = line('$')
-    elseif g:bottom != line('$')
-	let g:bottom = g:bottom - 1
+    " let 2com
+    let s:header = "^\s*" . s:scom . s:scom
+    let s:top = search(s:header . '\|\%^?', 'cbnW')
+    let s:bottom = search(s:header . '\|\%$', 'nW')
+    if s:bottom <= s:top
+	let s:bottom = line('$')
+    elseif s:bottom != line('$')
+	let s:bottom = s:bottom - 1
     endif
-    if g:top == 0
-	let g:top = 1
+    if s:top == 0
+	let s:top = 1
     endif
-    call s:TmuxSendLines(g:top, g:bottom)
+    call s:TmuxSendLines(s:top, s:bottom)
 endfunction
 
 " send visual selection
