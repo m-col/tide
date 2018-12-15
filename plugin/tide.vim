@@ -18,10 +18,12 @@ function! TmuxSendKeys(keys)
     let l:keys = substitute(a:keys, '^[\ ]*', '', 'g') "strip leading whitespace
     let l:keys = substitute(l:keys, '	', '    ', 'g') "make tabs spaces
     let l:keys = substitute(l:keys, ";$", '; ', 'g') "preserve trailing semicolons
-    let l:keys = substitute(l:keys, '\', '\\\\', 'g') "escape backslashes
-    let l:keys = substitute(l:keys, '\"', '\\\"', 'g') "escape double quotes
-    let l:keys = substitute(l:keys, '!', '\!', 'g') "escape esclamation mark
-    let l:keys = substitute(l:keys, '\$', '\\\$', 'g') "escape dollar sign
+    let l:keys = escape(l:keys, '\"$')
+    "let l:keys = substitute(l:keys, '\', '\\\\', 'g') "escape backslashes
+    "let l:keys = substitute(l:keys, '\"', '\\\"', 'g') "escape double quotes
+    "let l:keys = substitute(l:keys, '!', '\!', 'g') "escape esclamation mark
+    "let l:keys = escape(l:keys, '!')
+    "let l:keys = substitute(l:keys, '\$', '\\\$', 'g') "escape dollar sign
     call system(g:tmux_cmd . "-l \"" . l:keys . "\"")
 endfunction
 function! s:TmuxSendEnter()
@@ -33,7 +35,7 @@ function! TmuxSendKeysEnter(keys)
 endfunction
 
 " send region between two lines
-function! s:TmuxSendLines(top, bottom)
+function! TmuxSendLines(top, bottom)
     if a:top > a:bottom
 	call TmuxSendKeys(getline(a:top))
 	call s:TmuxSendEnter()
@@ -64,7 +66,7 @@ function! s:TmuxSendParagraph()
     if l:bottom != line("$")
 	let l:bottom = l:bottom - 1
     endif
-    call s:TmuxSendLines(l:top, l:bottom)
+    call TmuxSendLines(l:top, l:bottom)
 endfunction
 
 " send current section delimited by double comments
@@ -89,7 +91,7 @@ function! s:TmuxSendSection()
     if s:top == 0
 	let s:top = 1
     endif
-    call s:TmuxSendLines(s:top, s:bottom)
+    call TmuxSendLines(s:top, s:bottom)
 endfunction
 
 " send visual selection
@@ -114,7 +116,7 @@ command! -nargs=0 -complete=command TmuxSendVisual call s:TmuxSendVisual()
 command! -nargs=0 -complete=command TmuxSendLine call TmuxSendKeys(getline(".")) | call s:TmuxSendEnter()
 command! -nargs=0 -complete=command TmuxSendParagraph call s:TmuxSendParagraph()
 command! -nargs=0 -complete=command TmuxSendSection call s:TmuxSendSection()
-command! -nargs=0 -complete=command -range TmuxSendLines call s:TmuxSendLines(<line1>, <line2>)
+command! -nargs=0 -complete=command -range TmuxSendLines call TmuxSendLines(<line1>, <line2>)
 
 silent! xnoremap <unique> <silent> <script> <Plug>TmuxSendVisual :<C-u>TmuxSendVisual<CR>
 silent! nnoremap <unique> <silent> <script> <Plug>TmuxSendParagraph :TmuxSendParagraph<CR>
@@ -130,17 +132,3 @@ if !exists("g:tide_no_default_keys")
     silent! nmap <unique> <silent> <F7> <Plug>TmuxSendWord
     silent! nmap <unique> <silent> <F4> <Plug>TmuxSendSection
 endif
-
-""
-return
-
-
-here
-
-
-
-
-here
-
-
-
