@@ -4,7 +4,7 @@
 
 " load once
 if exists('g:loaded_tide')
-  finish
+    finish
 endif
 let g:loaded_tide = 1
 
@@ -38,8 +38,18 @@ function! s:TmuxSendLines(top, bottom)
 	call TmuxSendKeys(getline(a:top))
 	call s:TmuxSendEnter()
     else
+	let l:numcomments = 0
 	for l:line in range(a:top, a:bottom)
-	    call TmuxSendKeysEnter(getline(l:line))
+	    let l:linetext = getline(l:line)
+	    if empty(l:linetext)
+		let l:numcomments +=1
+		if l:numcomments > 1
+		    continue
+		endif
+	    else
+		let l:numcomments = 0
+	    endif
+	    call TmuxSendKeysEnter(l:linetext)
 	endfor
     endif
 endfunction
@@ -68,7 +78,6 @@ function! s:TmuxSendSection()
 	    let s:scom = s:ncom
 	endif
     endfor
-    " let 2com
     let s:header = "^\s*" . s:scom . s:scom
     let s:top = search(s:header . '\|\%^?', 'cbnW')
     let s:bottom = search(s:header . '\|\%$', 'nW')
@@ -121,3 +130,17 @@ if !exists("g:tide_no_default_keys")
     silent! nmap <unique> <silent> <F7> <Plug>TmuxSendWord
     silent! nmap <unique> <silent> <F4> <Plug>TmuxSendSection
 endif
+
+""
+return
+
+
+here
+
+
+
+
+here
+
+
+
