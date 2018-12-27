@@ -86,7 +86,7 @@ function! s:TmuxSendSection()
     if s:bottom <= s:top
 	let s:bottom = line('$')
     elseif s:bottom != line('$')
-	let s:bottom = s:bottom - 1
+	let s:bottom = prevnonblank(s:bottom)
     endif
     if s:top == 0
 	let s:top = 1
@@ -132,3 +132,4 @@ if !exists("g:tide_no_default_keys")
     silent! nmap <unique> <silent> <F7> <Plug>TmuxSendWord
     silent! nmap <unique> <silent> <F4> <Plug>TmuxSendSection
 endif
+

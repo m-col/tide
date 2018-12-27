@@ -7,7 +7,7 @@ This can be used to send text from vim to tmux, in two setups:
 Tmux with one pane receiving all text from a non-tmuxed vim elsewhere, or
 vim in one of two tmux panes can send text to the.
 
-## default keybindings
+## default keybindings for all filetypes
 
 <F9> send visual selection (visual mode)
 <F9> send current paragraph (normal mode)
