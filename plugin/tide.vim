@@ -24,10 +24,10 @@ function! TmuxSendKeys(keys)
     "let l:keys = substitute(l:keys, '!', '\!', 'g') "escape esclamation mark
     "let l:keys = escape(l:keys, '!')
     "let l:keys = substitute(l:keys, '\$', '\\\$', 'g') "escape dollar sign
-    call system(g:tmux_cmd . "-l \"" . l:keys . "\"")
+    call system(g:tmux_cmd . "-l \"" . l:keys . "\" &")
 endfunction
 function! s:TmuxSendEnter()
-    call system(g:tmux_cmd . "C-m")
+    call system(g:tmux_cmd . "C-m &")
 endfunction
 function! TmuxSendKeysEnter(keys)
     call TmuxSendKeys(a:keys)
