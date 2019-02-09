@@ -72,9 +72,11 @@ endfunction
 " send current section delimited by double comments
 function! s:TmuxSendSection()
     " find shortest comment character
-    let s:com = split(&comments, ",")
-    let s:scom = substitute(s:com[0], "^.*:", '', '')
-    for s:i in s:com
+    if ! exists("b:com")
+	let b:com = split(&comments, ",")
+    endif
+    let s:scom = substitute(b:com[0], "^.*:", '', '')
+    for s:i in b:com
 	let s:ncom = substitute(s:i, "^.*:", '', '')
 	if len(s:ncom) < len(s:scom)
 	    let s:scom = s:ncom
@@ -86,7 +88,7 @@ function! s:TmuxSendSection()
     if s:bottom <= s:top
 	let s:bottom = line('$')
     elseif s:bottom != line('$')
-	let s:bottom = prevnonblank(s:bottom)
+	let s:bottom = prevnonblank(s:bottom-1)
     endif
     if s:top == 0
 	let s:top = 1
