@@ -124,6 +124,7 @@ silent! xnoremap <unique> <silent> <script> <Plug>TmuxSendVisual :<C-u>TmuxSendV
 silent! nnoremap <unique> <silent> <script> <Plug>TmuxSendParagraph :TmuxSendParagraph<CR>
 silent! nnoremap <unique> <silent> <script> <Plug>TmuxSendLine :TmuxSendLine<CR>
 silent! nnoremap <unique> <silent> <script> <Plug>TmuxSendWord :call TmuxSendKeysEnter(expand("<cword>"))<CR>
+silent! nnoremap <unique> <silent> <script> <Plug>TmuxSendWORD :call TmuxSendKeysEnter(expand("<cWORD>"))<CR>
 silent! nnoremap <unique> <silent> <script> <Plug>TmuxSendSection :TmuxSendSection<CR>
 
 " default keybindings
@@ -132,6 +133,7 @@ if !exists("g:tide_no_default_keys")
     silent! nmap <unique> <silent> <F9> <Plug>TmuxSendParagraph
     silent! nmap <unique> <silent> <F8> <Plug>TmuxSendLine
     silent! nmap <unique> <silent> <F7> <Plug>TmuxSendWord
+    silent! nmap <unique> <silent> <F6> <Plug>TmuxSendWORD
     silent! nmap <unique> <silent> <F4> <Plug>TmuxSendSection
 endif
 
