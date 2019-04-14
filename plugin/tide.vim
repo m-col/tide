@@ -15,7 +15,8 @@ endif
 
 " main send keys function
 function! TmuxSendKeys(keys)
-    let l:keys = substitute(a:keys, '^[\ ]*', '', 'g') "strip leading whitespace
+    let l:keys = a:keys
+    "let l:keys = substitute(a:keys, '^[\ ]*', '', 'g') "strip leading whitespace
     let l:keys = substitute(l:keys, '	', '    ', 'g') "make tabs spaces
     let l:keys = substitute(l:keys, ";$", '; ', 'g') "preserve trailing semicolons
     let l:keys = escape(l:keys, '\"$')
