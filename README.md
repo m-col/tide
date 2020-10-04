@@ -14,3 +14,7 @@ vim in one of two tmux panes can send text to the.
 <F8> send current line
 <F7> send word under cursor
 <F4> send section delimited by double comment characters
+
+## Contact
+
+Email me @ mcol@posteo.net for questions or contributions.
