@@ -115,11 +115,11 @@ endfunction
 " command and plugin mappings
 command! -nargs=+ -complete=command TmuxSendKeys call TmuxSendKeys(<q-args>)
 command! -nargs=+ -complete=command TmuxSendKeysEnter call TmuxSendKeysEnter(<q-args>)
-command! -nargs=0 -complete=command TmuxSendVisual call s:TmuxSendVisual()
-command! -nargs=0 -complete=command TmuxSendLine call TmuxSendKeys(getline(".")) | call s:TmuxSendEnter()
-command! -nargs=0 -complete=command TmuxSendParagraph call s:TmuxSendParagraph()
-command! -nargs=0 -complete=command TmuxSendSection call s:TmuxSendSection()
-command! -nargs=0 -complete=command -range TmuxSendLines call TmuxSendLines(<line1>, <line2>)
+command! -nargs=0 TmuxSendVisual call s:TmuxSendVisual()
+command! -nargs=0 TmuxSendLine call TmuxSendKeys(getline(".")) | call s:TmuxSendEnter()
+command! -nargs=0 TmuxSendParagraph call s:TmuxSendParagraph()
+command! -nargs=0 TmuxSendSection call s:TmuxSendSection()
+command! -nargs=0 -range TmuxSendLines call TmuxSendLines(<line1>, <line2>)
 
 silent! xnoremap <unique> <silent> <script> <Plug>TmuxSendVisual :<C-u>TmuxSendVisual<CR>
 silent! nnoremap <unique> <silent> <script> <Plug>TmuxSendParagraph :TmuxSendParagraph<CR>
